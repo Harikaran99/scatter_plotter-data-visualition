@@ -10,7 +10,7 @@ const width = 920;
 const padding = 40;
 const paddingTop = 90
 const paddingRight = 60
-const yTextWidth = 25
+const yAxisTextMargin = 25
 
 // mutate the time to date
 data.forEach(d => {
@@ -45,12 +45,12 @@ const svg = d3.select("body")
 
 // appending xAxis            
 svg.append("g")
-   .attr("transform", `translate(${yTextWidth}, ${height - padding})`)
+   .attr("transform", `translate(${yAxisTextMargin}, ${height - padding})`)
    .call(xAxis)
 
 // appending yAxis
 svg.append("g")
-   .attr("transform", `translate(${padding+yTextWidth}, 0)`)
+   .attr("transform", `translate(${padding+yAxisTextMargin}, 0)`)
    .call(yAxis)
 
 // Title text
@@ -61,6 +61,7 @@ svg.append("text")
 .attr("y", 45)
 .attr("id", "title")
 
+// Sub Title text
 svg.append("text")
 .text("35 Fastest times up Alpe d'Huez")
 .attr("text-anchor", "middle")
@@ -72,18 +73,41 @@ svg.append("text")
 svg.append("text")
 .text("Time in Minutes")
 .attr("x", -330)
-.attr("y", yTextWidth)
+.attr("y", yAxisTextMargin)
 .attr("id", "text-y")
 .attr("transform", `rotate(-90)`)
 
+//scatterploted data with circles
 svg.selectAll("circle")
    .data(data)
    .enter()
    .append("circle")
    .attr("r", 6)
-   .attr("cx", d => xScale(d.Year) + yTextWidth )
+   .attr("cx", d => xScale(d.Year) + yAxisTextMargin )
    .attr("cy", d => yScale(d.Time))
    .attr("fill", "red")
+
+//legends for data
+const legends = svg.append('g')
+                   .attr("id", "legend-label")
+                   .attr("transform", "translate(100, 300)")
+
+const legend_1 = legends.append("g")
+legend_1.append("text")
+        .text("No doping allegations")
+        .attr("style", "text-anchor: end")
+        .attr("x", 0)
+        .attr("y", 0)
+legend_1.append("rect")
+
+const legend_2 = legends.append("g")
+legend_2.append("text")
+        .text("Riders with doping allegations")
+        .attr("style", "text-anchor: end")
+        .attr("x", 0)
+        .attr("y", 25)
+legend_2.append("rect")
+                        
 
 
 
