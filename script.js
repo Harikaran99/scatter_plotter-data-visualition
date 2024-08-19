@@ -8,6 +8,8 @@ console.log(data)
 const height = 630;
 const width = 920;
 const padding = 40;
+const paddingTop = 90
+const paddingRight = 60
 const yTextWidth = 25
 
 // mutate the time to date
@@ -26,8 +28,8 @@ let xMax = d3.max(data, index => index.Year + 1)
 let [yMin,yMax] = d3.extent(data, d => d.Time)
 
 // scales for x,y
-let xScale = d3.scaleLinear([xMin,xMax], [padding, width-padding])
-let yScale = d3.scaleTime([yMin, yMax], [padding, height-padding])
+let xScale = d3.scaleLinear([xMin,xMax], [padding, width-paddingRight])
+let yScale = d3.scaleTime([yMin, yMax], [paddingTop, height-padding])
 
 
 // axis for x,y
@@ -50,6 +52,21 @@ svg.append("g")
 svg.append("g")
    .attr("transform", `translate(${padding+yTextWidth}, 0)`)
    .call(yAxis)
+
+// Title text
+svg.append("text")
+.text("Doping in Professional Bicycle Racing")
+.attr("text-anchor", "middle")
+.attr("x", width/2)
+.attr("y", 45)
+.attr("id", "title")
+
+svg.append("text")
+.text("35 Fastest times up Alpe d'Huez")
+.attr("text-anchor", "middle")
+.attr("x", width/2)
+.attr("y", 75)
+.attr("id", "subtitle")
 
 // yAxis caption
 svg.append("text")
