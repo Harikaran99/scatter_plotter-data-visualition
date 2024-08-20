@@ -77,6 +77,12 @@ svg.append("text")
 .attr("id", "text-y")
 .attr("transform", `rotate(-90)`)
 
+
+// tooltip for circles
+const tooltip = d3.select("body")
+                  .append("div")
+                  .attr("id", "tooltip")
+
 //scatterploted data with circles
 svg.selectAll("circle")
    .data(data)
@@ -85,10 +91,18 @@ svg.selectAll("circle")
    .attr("r", 6)
    .attr("cx", d => xScale(d.Year) + yAxisTextMargin )
    .attr("cy", d => yScale(d.Time))
-   .attr("fill", "red")
+   .attr("class", "dot")
+   .attr("fill", d => d.Doping ? "rgb(173, 59, 59)" : "green")
+   .on("mouseover", (event, d) => {
+      tooltip.transition().duration(200).style("opacity", 0.9)
+      tooltip.html(`
+         <p>${d.Name}: ${d.Nationality}</p>
+         <p>Year: ${d.Year}, Time: ${d.Time}</p>
+         `)
+   })
 
 //legends for data
-const legend_data = ["No doping allegations", "Riders with doping allegations"]
+const legend_data = [["No doping allegations", "green"], ["Riders with doping allegations", "rgb(173, 59, 59)"]]
 const legends = svg.append('g')
                    .attr("id", "legend-label")
                    .attr("transform", `translate(${width-50}, 230)`)
@@ -99,7 +113,7 @@ const legends = svg.append('g')
                    .attr("class", "legend-label")
                    
 legends.append("text")
-       .text(d => d)
+       .text(d => d[0])
        .attr("style", "text-anchor: end")
        .attr("x", 0)
        .attr("y", (d,i) => i * 30)
@@ -108,6 +122,7 @@ legends.append("rect")
        .attr("width", 17)
        .attr("x", 10)
        .attr("y", (d,i) => (i * 30) - 13)
+       .attr("fill", (d, i) => d[1])
 
                         
 
