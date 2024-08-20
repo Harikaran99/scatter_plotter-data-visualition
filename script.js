@@ -88,25 +88,27 @@ svg.selectAll("circle")
    .attr("fill", "red")
 
 //legends for data
+const legend_data = ["No doping allegations", "Riders with doping allegations"]
 const legends = svg.append('g')
                    .attr("id", "legend-label")
-                   .attr("transform", "translate(100, 300)")
+                   .attr("transform", `translate(${width-50}, 230)`)
+                   .selectAll("text")
+                   .data(legend_data)
+                   .enter()
+                   .append("g")
+                   .attr("class", "legend-label")
+                   
+legends.append("text")
+       .text(d => d)
+       .attr("style", "text-anchor: end")
+       .attr("x", 0)
+       .attr("y", (d,i) => i * 30)
+legends.append("rect")
+       .attr("height", 17)
+       .attr("width", 17)
+       .attr("x", 10)
+       .attr("y", (d,i) => (i * 30) - 13)
 
-const legend_1 = legends.append("g")
-legend_1.append("text")
-        .text("No doping allegations")
-        .attr("style", "text-anchor: end")
-        .attr("x", 0)
-        .attr("y", 0)
-legend_1.append("rect")
-
-const legend_2 = legends.append("g")
-legend_2.append("text")
-        .text("Riders with doping allegations")
-        .attr("style", "text-anchor: end")
-        .attr("x", 0)
-        .attr("y", 25)
-legend_2.append("rect")
                         
 
 
