@@ -34,7 +34,7 @@ let yScale = d3.scaleTime([yMin, yMax], [paddingTop, height-padding])
 
 
 // axis for x,y
-let xAxis = d3.axisBottom(xScale)
+let xAxis = d3.axisBottom(xScale).tickFormat(d3.format('d'))
 let yAxis = d3.axisLeft(yScale).tickFormat(formatTime)
 
 console.log(yScale("39:22"))
@@ -46,11 +46,13 @@ const svg = d3.select("body")
 
 // appending xAxis            
 svg.append("g")
+   .attr("id", "x-axis")
    .attr("transform", `translate(${yAxisTextMargin}, ${height - padding})`)
    .call(xAxis)
 
 // appending yAxis
 svg.append("g")
+   .attr("id", "y-axis")
    .attr("transform", `translate(${padding+yAxisTextMargin}, 0)`)
    .call(yAxis)
 
@@ -83,6 +85,7 @@ svg.append("text")
 const tooltip = d3.select("body")
                   .append("div")
                   .attr("id", "tooltip")
+                  .attr('class', 'tooltip')
                   .style("opacity", 0)
 
 //scatterploted data with circles
@@ -93,37 +96,36 @@ svg.selectAll("circle")
    .attr("r", 6)
    .attr("cx", d => xScale(d.Year) + yAxisTextMargin )
    .attr("cy", d => yScale(d.Time))
+   .attr("data-xvalue", d => d.Year)
+   .attr("data-yvalue", d => d.Time.toISOString())
    .attr("class", "dot")
    .attr("fill", d => d.Doping ? "rgb(173, 59, 59)" : "green")
    .on("mouseover", (event, d) => {
       tooltip.transition().duration(200).style("opacity", 0.9)
+      tooltip.attr('data-year', d.Year);
       tooltip.html(`
          <p>${d.Name}: ${d.Nationality}</p>
          <p>Year: ${d.Year}, Time: ${formatTime(d.Time)}</p>
-         <br>
-         <p>${d.Doping}</p>
+         ${d.Doping ? `</br> <p>${d.Doping}</p>` : ""}
          `)
          .style("left", (event.pageX + 20) + "px")
          .style("top", (event.pageY - 28) + "px");
  })
-   .on("mousemove", (event, d) => {
-      tooltip.style("left", (event.pageX + 20) + "px")
-            .style("top", (event.pageY - 28) + "px");
-})
+
   .on("mouseout", (d) => {
      tooltip.transition().duration(500).style("opacity", 0);
-f})
+})
 
 //legends for data
 const legend_data = [["No doping allegations", "green"], ["Riders with doping allegations", "rgb(173, 59, 59)"]]
 const legends = svg.append('g')
-                   .attr("id", "legend-label")
+                   .attr("id", "legend")
                    .attr("transform", `translate(${width-50}, 230)`)
                    .selectAll("text")
                    .data(legend_data)
                    .enter()
                    .append("g")
-                   .attr("class", "legend-label")
+                   .attr("class", "legend")
                    
 legends.append("text")
        .text(d => d[0])

@@ -6,6 +6,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    font-family: "Poppins",sans-serif;
 }
 
 text {
@@ -22,7 +23,6 @@ text {
     backdrop-filter: blur(7.7px);
     -webkit-backdrop-filter: blur(7.7px);
     border: 1px solid rgba(32, 2, 2, 0.29);
-    font-family: "Poppins",sans-serif;
 }
 
 .dot {
@@ -37,11 +37,10 @@ text {
 
 #subtitle {
     font-size: 1.4em;
-    font-family: "Poppins",sans-serif;
 }
 
 #text-y {
-    font-family: "Poppins",sans-serif;
     font-size: 1.2rem;
     font-weight: 490;
 }
+
