@@ -11,6 +11,7 @@ const padding = 40;
 const paddingTop = 90
 const paddingRight = 60
 const yAxisTextMargin = 25
+const formatTime = d3.timeFormat('%M:%S')
 
 // mutate the time to date
 data.forEach(d => {
@@ -34,7 +35,7 @@ let yScale = d3.scaleTime([yMin, yMax], [paddingTop, height-padding])
 
 // axis for x,y
 let xAxis = d3.axisBottom(xScale)
-let yAxis = d3.axisLeft(yScale).tickFormat(d3.timeFormat('%M:%S'))
+let yAxis = d3.axisLeft(yScale).tickFormat(formatTime)
 
 console.log(yScale("39:22"))
 
@@ -82,6 +83,7 @@ svg.append("text")
 const tooltip = d3.select("body")
                   .append("div")
                   .attr("id", "tooltip")
+                  .style("opacity", 0)
 
 //scatterploted data with circles
 svg.selectAll("circle")
@@ -97,9 +99,20 @@ svg.selectAll("circle")
       tooltip.transition().duration(200).style("opacity", 0.9)
       tooltip.html(`
          <p>${d.Name}: ${d.Nationality}</p>
-         <p>Year: ${d.Year}, Time: ${d.Time}</p>
+         <p>Year: ${d.Year}, Time: ${formatTime(d.Time)}</p>
+         <br>
+         <p>${d.Doping}</p>
          `)
-   })
+         .style("left", (event.pageX + 20) + "px")
+         .style("top", (event.pageY - 28) + "px");
+ })
+   .on("mousemove", (event, d) => {
+      tooltip.style("left", (event.pageX + 20) + "px")
+            .style("top", (event.pageY - 28) + "px");
+})
+  .on("mouseout", (d) => {
+     tooltip.transition().duration(500).style("opacity", 0);
+f})
 
 //legends for data
 const legend_data = [["No doping allegations", "green"], ["Riders with doping allegations", "rgb(173, 59, 59)"]]

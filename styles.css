@@ -12,6 +12,19 @@ text {
     fill: rgb(200, 202, 205);
 }
 
+#tooltip {
+    position: absolute;
+    padding: 10px;
+    line-height: 0.3em;
+    background: rgba(0, 0, 0, 0.81);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(7.7px);
+    -webkit-backdrop-filter: blur(7.7px);
+    border: 1px solid rgba(32, 2, 2, 0.29);
+    font-family: "Poppins",sans-serif;
+}
+
 .dot {
     stroke: #000;
     opacity: 0.8;
