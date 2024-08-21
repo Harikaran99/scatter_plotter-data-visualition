@@ -138,9 +138,3 @@ legends.append("rect")
        .attr("x", 10)
        .attr("y", (d,i) => (i * 30) - 13)
        .attr("fill", (d, i) => d[1])
-
-                        
-
-
-
-
