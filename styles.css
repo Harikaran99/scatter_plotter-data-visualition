@@ -23,6 +23,7 @@ text {
     backdrop-filter: blur(7.7px);
     -webkit-backdrop-filter: blur(7.7px);
     border: 1px solid rgba(32, 2, 2, 0.29);
+    transition: 400ms;
 }
 
 .dot {
